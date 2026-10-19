@@ -25,7 +25,7 @@ def run():
             errors = []
             page.on('pageerror', lambda e: errors.append(str(e)))
             page.goto(f'http://127.0.0.1:{server.server_port}/')
-            expect(page.locator('#empty')).to_be_visible()
+            expect(page.locator('#todos li')).to_have_count(0)
             page.locator('#title').fill('   ')
             page.get_by_role('button', name='添加', exact=True).click()
             expect(page.locator('#todos li')).to_have_count(0)
@@ -35,11 +35,12 @@ def run():
             expect(page.locator('#todos img')).to_have_count(0)
             checks.append('空清单、新增、空白校验及安全文本')
             page.get_by_role('checkbox').check()
-            expect(page.locator('#count')).to_have_text('0 项待办 · 1 项已完成')
+            expect(page.locator('#todos li')).to_have_class('done')
             page.reload()
             expect(page.get_by_role('checkbox')).to_be_checked()
             page.get_by_role('checkbox').uncheck()
-            expect(page.locator('#count')).to_have_text('1 项待办 · 0 项已完成')
+            expect(page.get_by_role('checkbox')).not_to_be_checked()
+            expect(page.locator('#todos li')).not_to_have_class('done')
             checks.append('完成、恢复及刷新保存')
             for width in [320, 375, 768, 1280]:
                 page.set_viewport_size({'width': width, 'height': 900})

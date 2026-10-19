@@ -4,27 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#28594a">
-  <title>有序 · 待办清单</title>
+  <title>待办</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
   <main>
-    <header><span class="logo" aria-hidden="true">✓</span><span>有序</span></header>
-    <h1>待办清单</h1>
-    <p class="intro">记下来，一件一件完成。</p>
+    <h1 class="sr-only">待办清单</h1>
     <form id="add-form" autocomplete="off">
       <label class="sr-only" for="title">新的待办事项</label>
-      <input id="title" placeholder="接下来要做什么？" maxlength="100" required>
+      <input id="title" placeholder="添加待办…" maxlength="100" required>
       <button type="submit">添加</button>
     </form>
     <section class="list-panel" aria-label="待办事项">
       <ul id="todos"></ul>
-      <p id="empty" hidden>还没有待办，写下第一件小事吧。</p>
-      <p id="count" aria-live="polite"></p>
     </section>
     <p id="notice" role="status" aria-live="polite"></p>
-    <footer>自动保存在此浏览器 · 不跨设备同步</footer>
   </main>
 </body>
 </html>

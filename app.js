@@ -78,8 +78,6 @@
       row.append(label, remove);
       list.append(row);
     }
-    $('#empty').hidden = todos.length > 0 || locked;
-    $('#count').textContent = locked ? '本地数据暂不可用' : `${todos.filter(t => !t.done).length} 项待办 · ${todos.filter(t => t.done).length} 项已完成`;
     $('#title').disabled = locked;
     $('#add-form button').disabled = locked;
   }
