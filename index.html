@@ -4,41 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#28594a">
-  <title>有序 · 工作任务管理</title>
+  <title>有序 · 待办清单</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="layout">
-    <header class="topbar"><a class="brand" href="./"><span class="brand-icon">✓</span> 有序<span class="brand-note">让工作更有条理</span></a><span class="local-badge">● 数据保存在本机浏览器</span></header>
-    <main>
-      <section class="heading"><div><p class="eyebrow">MY WORKSPACE / 我的工作台</p><h1>把每一步，安排好。</h1><p class="subtitle">专注当下，让每一项任务都有着落。</p></div><button id="add-task" class="primary">＋ 新建任务</button></section>
-      <section class="stats" aria-label="任务统计">
-        <div class="stat"><span>全部任务</span><strong id="total-count">0</strong><small>每一件事，都值得被记录</small></div>
-        <div class="stat"><span><i class="dot progress"></i>进行中</span><strong id="progress-count">0</strong><small>保持节奏，稳步向前</small></div>
-        <div class="stat"><span><i class="dot done"></i>已完成</span><strong id="done-count">0</strong><small>每一次完成，都是进步</small></div>
-      </section>
-      <section class="task-panel" aria-labelledby="task-heading">
-        <div class="panel-top"><div><h2 id="task-heading">任务清单</h2><p>清晰记录，轻松推进</p></div><div class="filters"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索标题或负责人" aria-label="搜索标题或负责人"></label><select id="status-filter" aria-label="按状态筛选"><option value="all">全部状态</option><option>未开始</option><option>进行中</option><option>已完成</option></select></div></div>
-        <div class="table-header" aria-hidden="true"><span>任务 / 标题</span><span>负责人</span><span>截止日期</span><span>状态</span><span class="actions-heading">操作</span></div>
-        <div id="task-list"></div>
-        <div id="empty-state" class="empty" hidden><span>☷</span><h3>这里还没有任务</h3><p id="empty-text">点击“新建任务”，开始安排你的工作。</p></div>
-        <div class="panel-footer"><span id="result-count" aria-live="polite"></span><span>一步一步，把事情做好。</span></div>
-      </section>
-      <p id="notice" role="status" aria-live="polite"></p>
-      <footer>有序 · 简单记录，安心专注 <span>仅保存在当前浏览器，不会自动同步或备份</span></footer>
-    </main>
-  </div>
-  <dialog id="task-dialog" aria-labelledby="dialog-title">
-    <form id="task-form">
-      <div class="dialog-heading"><h2 id="dialog-title">新建任务</h2><button type="button" id="close-dialog" class="icon-button" aria-label="关闭">×</button></div>
-      <p class="form-hint">为接下来的工作，留一个清晰的位置。</p>
-      <label>任务标题<input name="title" required maxlength="100" placeholder="例如：整理产品体验反馈"></label>
-      <label>负责人<input name="owner" required maxlength="40" placeholder="请输入负责人姓名"></label>
-      <div class="form-row"><label>截止日期<input name="due" type="date" required min="0001-01-01" max="9999-12-31"></label><label>任务状态<select name="status"><option>未开始</option><option>进行中</option><option>已完成</option></select></label></div>
-      <p id="form-error" role="alert" style="color:#9b4b3e;font-size:13px;line-height:1.6" hidden></p>
-      <div class="dialog-actions"><button type="button" id="cancel-dialog" class="secondary">取消</button><button type="submit" class="primary">保存任务</button></div>
+  <main>
+    <header><span class="logo" aria-hidden="true">✓</span><span>有序</span></header>
+    <h1>待办清单</h1>
+    <p class="intro">记下来，一件一件完成。</p>
+    <form id="add-form" autocomplete="off">
+      <label class="sr-only" for="title">新的待办事项</label>
+      <input id="title" placeholder="接下来要做什么？" maxlength="100" required>
+      <button type="submit">添加</button>
     </form>
-  </dialog>
+    <section class="list-panel" aria-label="待办事项">
+      <ul id="todos"></ul>
+      <p id="empty" hidden>还没有待办，写下第一件小事吧。</p>
+      <p id="count" aria-live="polite"></p>
+    </section>
+    <p id="notice" role="status" aria-live="polite"></p>
+    <footer>自动保存在此浏览器 · 不跨设备同步</footer>
+  </main>
 </body>
 </html>
