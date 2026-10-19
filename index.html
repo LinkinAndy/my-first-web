@@ -4,21 +4,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#28594a">
-  <title>待办</title>
+  <title>四象限待办</title>
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
 <body>
   <main>
-    <h1 class="sr-only">待办清单</h1>
+    <h1>四象限待办</h1>
     <form id="add-form" autocomplete="off">
       <label class="sr-only" for="title">新的待办事项</label>
       <input id="title" placeholder="添加待办…" maxlength="100" required>
+      <label class="sr-only" for="quadrant">选择象限</label>
+      <select id="quadrant">
+        <option value="q1">重要且紧急</option>
+        <option value="q2" selected>重要不紧急</option>
+        <option value="q3">紧急不重要</option>
+        <option value="q4">不重要不紧急</option>
+      </select>
       <button type="submit">添加</button>
     </form>
-    <section class="list-panel" aria-label="待办事项">
-      <ul id="todos"></ul>
-    </section>
+    <div id="todos" class="board">
+      <section class="quadrant q1" aria-labelledby="q1-title"><h2 id="q1-title">重要且紧急 <small>立即做</small></h2><ul id="q1"></ul><p class="empty">暂无待办</p></section>
+      <section class="quadrant q2" aria-labelledby="q2-title"><h2 id="q2-title">重要不紧急 <small>计划做</small></h2><ul id="q2"></ul><p class="empty">暂无待办</p></section>
+      <section class="quadrant q3" aria-labelledby="q3-title"><h2 id="q3-title">紧急不重要 <small>酌情委派</small></h2><ul id="q3"></ul><p class="empty">暂无待办</p></section>
+      <section class="quadrant q4" aria-labelledby="q4-title"><h2 id="q4-title">不重要不紧急 <small>少做或不做</small></h2><ul id="q4"></ul><p class="empty">暂无待办</p></section>
+    </div>
     <p id="notice" role="status" aria-live="polite"></p>
   </main>
 </body>

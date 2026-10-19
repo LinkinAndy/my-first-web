@@ -35,13 +35,18 @@ def run():
             expect(page.locator('#todos img')).to_have_count(0)
             checks.append('空清单、新增、空白校验及安全文本')
             page.get_by_role('checkbox').check()
-            expect(page.locator('#todos li')).to_have_class('done')
+            expect(page.locator('#q2 li')).to_have_class('done')
             page.reload()
             expect(page.get_by_role('checkbox')).to_be_checked()
             page.get_by_role('checkbox').uncheck()
             expect(page.get_by_role('checkbox')).not_to_be_checked()
-            expect(page.locator('#todos li')).not_to_have_class('done')
+            expect(page.locator('#q2 li')).not_to_have_class('done')
             checks.append('完成、恢复及刷新保存')
+            page.get_by_role('combobox', name='移动：<img src=x onerror=alert(1)>买牛奶', exact=True).select_option('q1')
+            expect(page.locator('#q1 li')).to_have_count(1)
+            page.reload()
+            expect(page.locator('#q1 li')).to_have_count(1)
+            checks.append('移动象限及刷新保存')
             for width in [320, 375, 768, 1280]:
                 page.set_viewport_size({'width': width, 'height': 900})
                 assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), width
@@ -50,6 +55,19 @@ def run():
             page.reload()
             expect(page.locator('#todos li')).to_have_count(0)
             checks.append('删除全部后刷新仍为空')
+            for quadrant in ['q1', 'q2', 'q3', 'q4']:
+                page.locator('#quadrant').select_option(quadrant)
+                page.locator('#title').fill('测试' + quadrant)
+                page.locator('#title').press('Enter')
+                expect(page.locator('#' + quadrant + ' li')).to_have_count(1)
+            for quadrant in ['q1', 'q2', 'q3', 'q4']:
+                page.locator('#' + quadrant + ' .delete').click()
+            checks.append('四个象限均可添加和删除')
+            page.evaluate('(key) => localStorage.setItem(key, JSON.stringify([{id:"todo-v1",title:"原待办",done:true}]))', KEY)
+            page.reload()
+            expect(page.locator('#q2 li')).to_have_count(1)
+            expect(page.get_by_role('checkbox', name='原待办')).to_be_checked()
+            checks.append('已有 Todo 默认归入重要不紧急')
             legacy = [
                 {'id': 'one', 'title': '旧待办', 'status': '进行中', 'owner': '小夏', 'due': '2026-11-01'},
                 {'id': 'two', 'title': '旧完成', 'status': '已完成', 'owner': '小林', 'due': '2026-11-02'},
